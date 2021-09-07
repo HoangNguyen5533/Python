@@ -199,23 +199,78 @@
 # hsv_green = cv.cvtColor(green,cv.COLOR_BGR2HSV)
 # print(hsv_green)
 '''Threshold'''
+# import cv2 as cv
+# import numpy as np
+# from matplotlib import pyplot as plt
+# img = cv.imread('messi5.jpg',0)
+# ret,thresh1 = cv.threshold(img,125,255,cv.THRESH_BINARY)
+# ret,thresh2 = cv.threshold(img,125,255,cv.THRESH_BINARY_INV)
+# ret,thresh3 = cv.threshold(img,125,255,cv.THRESH_TRUNC)
+# ret,thresh4 = cv.threshold(img,125,255,cv.THRESH_TOZERO)
+# ret,thresh5 = cv.threshold(img,125,255,cv.THRESH_TOZERO_INV)
+
+# titles = ['img','BINARY','BINARY_INV','TRUNC','TOZERO','TOZERO_INV']
+# image = [img,thresh1,thresh2,thresh3,thresh4,thresh5]
+
+# for i in range(6):
+#     plt.subplot(2,3,i+1)
+#     plt.imshow(image[i],'gray')
+#     plt.title(titles[i])
+#     plt.xticks([])
+#     plt.yticks([])
+# plt.show()
+
+# import cv2 as cv
+# import numpy as np
+# def nothing(x):
+#     pass
+# cap = cv.VideoCapture(0)
+# cv.namedWindow('camera',cv.WINDOW_AUTOSIZE)
+# cv.createTrackbar('threshold','camera',0,255,nothing)
+# while True:
+#     ret,frame = cap.read()
+#     gray = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+#     thresh_val = cv.getTrackbarPos('threshold','camera')
+#     if thresh_val % 2 !=0:
+#         print(thresh_val)
+#     ret,thresh = cv.threshold(gray,thresh_val,255,cv.THRESH_BINARY)
+#     cv.imshow('camera',thresh)
+#     if cv.waitKey(1) & 0xff == ord('q'):
+#         break
+# cap.release()
+
+'''adaptive Thershold'''
 import cv2 as cv
 import numpy as np
-from matplotlib import pyplot as plt
-img = cv.imread('messi5.jpg',0)
-ret,thresh1 = cv.threshold(img,125,255,cv.THRESH_BINARY)
-ret,thresh2 = cv.threshold(img,125,255,cv.THRESH_BINARY_INV)
-ret,thresh3 = cv.threshold(img,125,255,cv.THRESH_TRUNC)
-ret,thresh4 = cv.threshold(img,125,255,cv.THRESH_TOZERO)
-ret,thresh5 = cv.threshold(img,125,255,cv.THRESH_TOZERO_INV)
+def nothing(x):
+    pass
+cv.namedWindow('setting')
+cv.createTrackbar('thresh','setting',0,255,nothing)
+cv.createTrackbar('AdptiveThresh','setting',0,255,nothing)
+cv.createTrackbar('C','setting',0,255,nothing)
+cap = cv.VideoCapture(0)
+while True:
 
-titles = ['img','BINARY','BINARY_INV','TRUNC','TOZERO','TOZERO_INV']
-image = [img,thresh1,thresh2,thresh3,thresh4,thresh5]
+    ret1,frame = cap.read()
+    img = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+    thres_val = cv.getTrackbarPos('thresh','setting')
+    adthres_val = cv.getTrackbarPos('AdptiveThresh','setting')
+    c_val = cv.getTrackbarPos('C','setting')
+    ret,thresh1 = cv.threshold(img,thres_val,255,cv.THRESH_BINARY)
+    if adthres_val <= 3:
+        thresh2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,3,c_val)
+        thresh3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,3,c_val)
+    elif adthres_val %2 == 0:
+        thresh2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,adthres_val-1,c_val)
+        thresh3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,adthres_val-1,c_val)
+    else:
+        thresh2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,adthres_val,c_val)
+        thresh3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,adthres_val,c_val)
 
-for i in range(6):
-    plt.subplot(2,3,i+1)
-    plt.imshow(image[i],'gray')
-    plt.title(titles[i])
-    plt.xticks([])
-    plt.yticks([])
-plt.show()
+    cv.imshow('thresh1',thresh1)
+    cv.imshow('thresh2',thresh2)
+    cv.imshow('thresh3',thresh3)
+    print(adthres_val)
+    if cv.waitKey(1) & 0xff == ord('q'):
+        break
+cv.destroyAllWindows()
