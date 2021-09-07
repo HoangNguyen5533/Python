@@ -96,3 +96,81 @@ filePath = 'messi5.jpg'
 # cv.imshow('img',img)
 # cv.waitKey()
 # cv.destroyAllWindows()
+
+'''Image Blending'''
+# import cv2 as cv
+# import numpy as np
+
+# img1 =cv.imread('ml.png')
+# img2 = cv.imread('opencv-logo.png')
+# dst = cv.addWeighted(img1,0.7,img2,0.3,0)
+# cv.imshow('img',dst)
+# cv.imshow('img',img2)
+# cv.waitKey(0)
+# cv.destroyAllWindows()
+'''Bitwise'''
+# import cv2 
+# import numpy as np
+
+# img1 = cv.imread('messi5.jpg')
+# img2 = cv.imread('opencv-logo.png')
+
+# rows,cols,channels = img2.shape
+# roi = img1[0:rows,0:cols]
+
+# img2gray = cv.cvtColor(img2,cv.COLOR_BGR2GRAY)
+# ret,mask = cv.threshold(img2gray,10,255,cv.THRESH_BINARY)
+# mask_inv = cv.bitwise_not(mask)
+
+# img1_bg = cv.bitwise_and(roi,roi,mask = mask_inv)
+
+# img2_fg = cv.bitwise_and(img2,img2,mask = mask)
+# dst = cv.add(img1_bg,img2_fg)
+# img1[0:rows,0:cols] = dst
+
+# cv.imshow('rst',img1)
+# cv.waitKey()
+# cv.destroyAllWindows()
+
+# rectangle = np.zeros((300, 300), dtype="uint8")
+# cv2.rectangle(rectangle, (25, 25), (275, 275), 255, -1)
+# cv2.imshow("Rectangle", rectangle)
+# # draw a circle
+# circle = np.zeros((300, 300), dtype = "uint8")
+# cv2.circle(circle, (150, 150), 150, 255, -1)
+# cv2.imshow("Circle", circle)
+# bitwiseAnd = cv2.bitwise_or(circle,rectangle)
+# cv2.imshow("AND", bitwiseAnd)
+# cv2.waitKey(0)
+
+# e1 = cv2.getTickCount()
+# # your code execution
+# e2 = cv2.getTickCount()
+# time = (e2 - e1)/ cv2.getTickFrequency()
+# img1 = cv2.imread('messi5.jpg')
+# e1 = cv2.getTickCount()
+# for i in range(5,49,2):
+#     img1 = cv2.medianBlur(img1,i)
+#     e2 = cv2.getTickCount()
+#     t = (e2 - e1)/cv2.getTickFrequency()
+#     print(t)
+import cv2 as cv
+import numpy as np
+
+cap = cv.VideoCapture(0)
+while True:
+    ret,frame = cap.read()
+    gray = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+    hsv = cv.cvtColor(frame,cv.COLOR_BGR2HSV)
+    low_bl = np.array([70,50,50])
+    up_bl = np.array([150,255,255])
+    mask1 = cv.inRange(hsv,low_bl,up_bl)
+    res = cv.bitwise_and(frame,frame,mask = mask1)
+
+    cv.imshow('camera',frame)
+    cv.imshow('mask',mask1)
+    cv.imshow('res',res)
+    cv.imshow('gray',hsv)
+    if cv.waitKey(1) & 0xff == ord('q'):
+        break
+cv.destroyAllWindows
