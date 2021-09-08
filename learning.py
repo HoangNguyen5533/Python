@@ -297,13 +297,63 @@
 # cv.destroyAllWindows()
 
 '''Scalling'''
+# import cv2 as cv
+# import numpy as np
+
+# img = cv.imread('messi5.jpg')
+# res = cv.resize(img,None,fx=0.5,fy=0.5,interpolation=cv.INTER_CUBIC)
+# cv.imshow('img',img)
+# cv.imshow('res',res)
+
+# cv.waitKey()
+# cv.destroyAllWindows()
+# '''Translation'''
+# import cv2 as cv
+# import numpy as np
+
+# img = cv.imread('messi5.jpg',0)
+# rows,cols = img.shape
+
+# M = np.float32([[1,0,100],[0,1,50]])
+# dst = cv.warpAffine(img,M,(cols,rows))
+# cv.imshow('img',dst)
+# cv.waitKey()
+# cv.destroyAllWindows()
+'''Smoothing Images'''
+
+# import cv2 as cv
+# import numpy as np
+
+# '''2D Convolution'''
+# img = cv.imread('opencv-logo.png')
+# kernel = np.ones((5,5),np.float32)/25
+# dst = cv.filter2D(img,-1,kernel)
+# #####################################
+
+# '''Blur Images'''
+# blur = cv.blur(img,(5,5))
+# gaussian_blur = cv.GaussianBlur(img,(5,5),1)
+# midian_blur = cv.medianBlur(img,5)
+# tiltes = ['img','dst','blur','gaussian','medianblur']
+# images = [img,dst,blur,gaussian_blur,midian_blur]
+# for i in range(len(tiltes)):
+#     cv.imshow(tiltes[i],images[i])
+# cv.waitKey()
+# cv.destroyAllWindows()
+
+'''Morphological Tranformations - Bien doi hinh thai'''
 import cv2 as cv
 import numpy as np
 
-img = cv.imread('messi5.jpg')
-res = cv.resize(img,None,fx=0.5,fy=0.5,interpolation=cv.INTER_CUBIC)
+img = cv.imread('j.png')
+kernel = np.ones((5,5),np.uint8)
+# Erosion - Xoi Mon
+erision = cv.erode(img,kernel,iterations=-1)
+#dilation - gian no
+dilation = cv.dilate(img,kernel,iterations=-1)
 cv.imshow('img',img)
-cv.imshow('res',res)
-
+cv.imshow('erision',erision)
+cv.imshow('dilation',dilation)
 cv.waitKey()
 cv.destroyAllWindows()
+
