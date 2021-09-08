@@ -240,37 +240,70 @@
 # cap.release()
 
 '''adaptive Thershold'''
+# import cv2 as cv
+# import numpy as np
+# def nothing(x):
+#     pass
+# cv.namedWindow('setting')
+# cv.createTrackbar('thresh','setting',0,255,nothing)
+# cv.createTrackbar('AdptiveThresh','setting',0,255,nothing)
+# cv.createTrackbar('C','setting',0,255,nothing)
+# cap = cv.VideoCapture(0)
+# while True:
+
+#     ret1,frame = cap.read()
+#     img = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+#     thres_val = cv.getTrackbarPos('thresh','setting')
+#     adthres_val = cv.getTrackbarPos('AdptiveThresh','setting')
+#     c_val = cv.getTrackbarPos('C','setting')
+#     ret,thresh1 = cv.threshold(img,thres_val,255,cv.THRESH_BINARY)
+#     if adthres_val <= 3:
+#         thresh2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,3,c_val)
+#         thresh3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,3,c_val)
+#     elif adthres_val %2 == 0:
+#         thresh2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,adthres_val-1,c_val)
+#         thresh3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,adthres_val-1,c_val)
+#     else:
+#         thresh2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,adthres_val,c_val)
+#         thresh3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,adthres_val,c_val)
+
+#     cv.imshow('thresh1',thresh1)
+#     cv.imshow('thresh2',thresh2)
+#     cv.imshow('thresh3',thresh3)
+#     print(adthres_val)
+#     if cv.waitKey(1) & 0xff == ord('q'):
+#         break
+# cv.destroyAllWindows()
+'''Otsu’s Binarization'''
+# import cv2 as cv
+# import numpy as np
+
+# cap = cv.VideoCapture(0)
+
+# while True:
+#     ret,frame = cap.read()
+#     gray = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+#     r1,th1 = cv.threshold(gray,127,255,cv.THRESH_BINARY)
+#     r2,th2 = cv.threshold(gray,20,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+#     blur = cv.GaussianBlur(frame,(5,5),0)
+#     gray_blur = cv.cvtColor(blur,cv.COLOR_BGR2GRAY)
+#     r3,th3 = cv.threshold(gray_blur,20,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+#     cv.imshow('thresh1',th1)
+#     cv.imshow('thresh2',th2)
+#     cv.imshow('thresh3',th3)
+#     if cv.waitKey(1) & 0xff == ord('q'):
+#         break
+# cap.release()
+# cv.destroyAllWindows()
+
+'''Scalling'''
 import cv2 as cv
 import numpy as np
-def nothing(x):
-    pass
-cv.namedWindow('setting')
-cv.createTrackbar('thresh','setting',0,255,nothing)
-cv.createTrackbar('AdptiveThresh','setting',0,255,nothing)
-cv.createTrackbar('C','setting',0,255,nothing)
-cap = cv.VideoCapture(0)
-while True:
 
-    ret1,frame = cap.read()
-    img = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
-    thres_val = cv.getTrackbarPos('thresh','setting')
-    adthres_val = cv.getTrackbarPos('AdptiveThresh','setting')
-    c_val = cv.getTrackbarPos('C','setting')
-    ret,thresh1 = cv.threshold(img,thres_val,255,cv.THRESH_BINARY)
-    if adthres_val <= 3:
-        thresh2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,3,c_val)
-        thresh3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,3,c_val)
-    elif adthres_val %2 == 0:
-        thresh2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,adthres_val-1,c_val)
-        thresh3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,adthres_val-1,c_val)
-    else:
-        thresh2 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY,adthres_val,c_val)
-        thresh3 = cv.adaptiveThreshold(img,255,cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY,adthres_val,c_val)
+img = cv.imread('messi5.jpg')
+res = cv.resize(img,None,fx=0.5,fy=0.5,interpolation=cv.INTER_CUBIC)
+cv.imshow('img',img)
+cv.imshow('res',res)
 
-    cv.imshow('thresh1',thresh1)
-    cv.imshow('thresh2',thresh2)
-    cv.imshow('thresh3',thresh3)
-    print(adthres_val)
-    if cv.waitKey(1) & 0xff == ord('q'):
-        break
+cv.waitKey()
 cv.destroyAllWindows()
