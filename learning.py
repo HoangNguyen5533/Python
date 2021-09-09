@@ -342,18 +342,75 @@
 # cv.destroyAllWindows()
 
 '''Morphological Tranformations - Bien doi hinh thai'''
+# import cv2 as cv
+# import numpy as np
+
+# img = cv.imread('j.png')
+# kernel = np.ones((5,5),np.uint8)
+# # Erosion - Xoi Mon
+# erision = cv.erode(img,kernel,iterations=-1)
+# #dilation - gian no
+# dilation = cv.dilate(img,kernel,iterations=-1)
+# cv.imshow('img',img)
+# cv.imshow('erision',erision)
+# cv.imshow('dilation',dilation)
+# cv.waitKey()
+# cv.destroyAllWindows()
+'''Image Gradients'''
+# import cv2 as cv
+# import numpy as np
+
+# img = cv.imread('dave.jpg')
+# laplacian = cv.Laplacian(img,cv.CV_64F)
+# sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+# sobely = cv.Sobel(img,cv.CV_64F,0,1,ksize=5)
+
+# cv.imshow('laplacian',laplacian)
+# cv.imshow('Sobely',sobely)
+# cv.imshow('Sobelx',sobelx)
+# cv.imshow('img',img)
+
+# cv.waitKey()
+# cv.destroyAllWindows()
+
+############## NOTE ###################
+# import cv2 as cv
+# import numpy as np
+
+# img = cv.imread('box1.png')
+
+# sobel64 = cv.Sobel(img,cv.CV_64F,0,1,ksize=1)
+# abs_sobel = np.absolute(sobel64)
+# cv.imshow('sobel64',abs_sobel)
+
+# cv.waitKey()
+# cv.destroyAllWindows()
+
+'''Canny'''
 import cv2 as cv
 import numpy as np
 
-img = cv.imread('j.png')
-kernel = np.ones((5,5),np.uint8)
-# Erosion - Xoi Mon
-erision = cv.erode(img,kernel,iterations=-1)
-#dilation - gian no
-dilation = cv.dilate(img,kernel,iterations=-1)
-cv.imshow('img',img)
-cv.imshow('erision',erision)
-cv.imshow('dilation',dilation)
-cv.waitKey()
-cv.destroyAllWindows()
+# img = cv.imread('messi5.jpg')
+# cannys = cv.Canny(img,100,200)
 
+# cv.imshow('img',img)
+# cv.imshow('Canny',cannys)
+
+# cv.waitKey()
+# cv.destroyAllWindows()
+# def nothing(x):
+#     pass
+# name_win = 'Setting'
+# cv.namedWindow(name_win)
+# cv.createTrackbar('thresh1',name_win,0,255,nothing)
+# cv.createTrackbar('thresh2',name_win,0,255,nothing)
+# img = cv.imread('messi5.jpg')
+
+# while True:
+#     th1 = cv.getTrackbarPos('thresh1',name_win)
+#     th2 = cv.getTrackbarPos('thresh2',name_win)
+#     cannys = cv.Canny(img,th1,th2)
+#     cv.imshow('img',cannys)
+#     if cv.waitKey(1) & 0xff == ord('q'):
+#         break
+# cv.destroyAllWindows()
