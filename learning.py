@@ -414,3 +414,18 @@ import numpy as np
 #     if cv.waitKey(1) & 0xff == ord('q'):
 #         break
 # cv.destroyAllWindows()
+'''Contours'''
+import cv2 as cv
+import numpy as np
+
+img = cv.imread('box1.png')
+gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+ret,thresh = cv.threshold(gray,60,255,cv.THRESH_BINARY_INV)
+contours, hier = cv.findContours(thresh,cv.RETR_LIST,cv.CHAIN_APPROX_SIMPLE)
+for c in contours:
+    cv.drawContours(img,c,-1,(0,0,255),3)
+cv.imshow('thresh',thresh)
+cv.imshow('img',img)
+
+cv.waitKey()
+cv.destroyAllWindows()
